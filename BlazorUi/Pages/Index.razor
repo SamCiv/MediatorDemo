@@ -1,0 +1,31 @@
+﻿@page "/"
+@inject MediatR.IMediator _mediator //e' il mediatore ovvero quello che vado a chiamre per fare le mie richieste
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<ul>
+    @foreach(var p in people)
+    {
+        <li>@p.FirstName @p.LastName</li>
+    }
+</ul>
+
+@code {
+    //Come carico la lista di people?Utilizzo meadtR
+    List<PersonModel> people; //all'interno di _Imports ho importato DemoLibrary
+
+    protected override async Task OnInitializedAsync() //viene chiamato all'inizio quando la pagina viene caricata
+    {
+        //get list people
+        //throw new NotImplementedException();
+        //return base.OnInitializedAsync();
+        /* Cosa succede?
+         * _mediator invia una request, con send, di tipo GestPersonListQuery non passando nulla, ma ricevendo una risposta di List<people> 
+         */
+        people = await _mediator.Send(new GetPersonListQuery());
+    }
+}
+
