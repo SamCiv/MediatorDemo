@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace DemoLibrary.Models
 {
-    public class PersonModel
+    public class OfficeAssignment
     {
-        public int Id { get; set; }
-        [Required]
+        [Key]
+        public int InstructorID { get; set; }
         [StringLength(50)]
-        public string FirstName { get; set; }
-        [Required,StringLength(50)]
-        public string LastName { get; set; }
+        [Display(Name = "Office Location")]
+        public string Location { get; set; }
+
+        public Instructor Instructor { get; set; }
     }
 }
