@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DemoLibrary.Queries
+namespace DemoLibrary.PersonQueries
 {
     public record GetPersonListQuery() : IRequest<List<PersonModel>>; //esempio con record, List<PersonModel> e cio che ritorna la request
 

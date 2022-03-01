@@ -1,6 +1,6 @@
 ﻿using DemoLibrary.Models;
 using MediatR;
-using DemoLibrary.Queries;
+using DemoLibrary.PersonQueries;
 using Microsoft.AspNetCore.Mvc;
 using DemoLibrary.Commands;
 
@@ -42,7 +42,8 @@ namespace DemoApi.Controllers
             return await _mediator.Send(richiesta);
         }
 
-/*        // PUT api/<PersonController>/5
+        /*
+        // PUT api/<PersonController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
@@ -52,6 +53,7 @@ namespace DemoApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-        }*/
+        }
+         */
     }
 }

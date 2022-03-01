@@ -20,6 +20,11 @@ builder.Services.AddDbContext<SchoolContext>(options =>
 
 //Aggiungo il servizio DataAccess alla DI
 builder.Services.AddSingleton<IDataAccess, DemoDataAccess>(); //non e' consigliato usare un Singleton
+
+builder.Services.AddTransient<ISchoolContext>(provider => provider.GetService<SchoolContext>());
+
+//builder.Services.AddTransient<ISchoolContext, SchoolContext>();
+
 //Aggiungo MediatR
 builder.Services.AddMediatR(typeof(DemoLibraryMediatREntryPoint).Assembly); //carica l'intero Assembly
 
@@ -38,8 +43,8 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     var context = services.GetRequiredService<SchoolContext>();
-    //context.Database.EnsureCreated();
-    DbInitializer.Initialize(context);
+    context.Database.EnsureCreated();
+   // DbInitializer.Initialize(context);
 }
 
 app.UseHttpsRedirection();

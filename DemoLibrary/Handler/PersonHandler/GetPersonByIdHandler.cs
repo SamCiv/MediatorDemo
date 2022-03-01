@@ -1,6 +1,6 @@
 ﻿using DemoLibrary.DataAccess;
 using DemoLibrary.Models;
-using DemoLibrary.Queries;
+using DemoLibrary.PersonQueries;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DemoLibrary.Handler
+namespace DemoLibrary.PersonHandler
 {
     public class GetPersonByIdHandler : IRequestHandler<GetPersonByIdQuery, PersonModel>
     {

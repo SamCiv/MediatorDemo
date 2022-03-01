@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DemoLibrary.DataAccess;
 
-namespace DemoLibrary.Handler
+namespace DemoLibrary.PersonHandler
 {
     //Handler che inserisce la persona nella lista
     public class InsertCommandHandler : IRequestHandler<InsertPersonCommand, PersonModel>

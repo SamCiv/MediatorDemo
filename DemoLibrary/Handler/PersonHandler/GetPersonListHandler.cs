@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DemoLibrary.DataAccess;
 using DemoLibrary.Models;
-using DemoLibrary.Queries;
+using DemoLibrary.PersonQueries;
 using MediatR;
 
-namespace DemoLibrary.Handler
+namespace DemoLibrary.PersonHandler
 {
     public class GetPersonListHandler : IRequestHandler<GetPersonListQuery, List<PersonModel>>
     {
