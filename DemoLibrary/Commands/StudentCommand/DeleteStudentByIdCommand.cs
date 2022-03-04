@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DemoLibrary.Commands.StudentCommand
 {
-    public record DeleteStudentByIdCommand(int Id) : IRequest<bool>;
+    public record DeleteStudentByIdCommand(int Id) : IRequest<ResultQC<bool>>;
 /*    
  *    
  *    {

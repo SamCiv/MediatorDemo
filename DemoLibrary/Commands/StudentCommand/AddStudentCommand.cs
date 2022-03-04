@@ -8,7 +8,7 @@ using MediatR;
 
 namespace DemoLibrary.Commands.StudentCommand
 {
-    public record AddStudentCommand (StudentDTO Student) : IRequest;
+    public record AddStudentCommand (StudentDTO Student) : IRequest<ResultQC<bool>>;
 
   /*  {
         public StudentDTO Student { get; set; } //passo il DTO dell ostudente che voglio Inserire

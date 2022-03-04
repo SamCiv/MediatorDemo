@@ -5,6 +5,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,12 +22,16 @@ namespace DemoLibrary.Handler.StudentHandler
 
         public Task<StudentDTO> Handle(GetStudentByIdQuery request, CancellationToken cancellationToken)
         {
-            var results = _context.Students;
-
-            var studente = results.Where( s => s.ID == request.Id).FirstOrDefault();
-
-            return Task.FromResult(new StudentDTO(studente.FirstMidName, studente.LastName));
             
+            var studente = _context.Students.Where(s => s.ID == request.Id).FirstOrDefault();
+
+            if(studente != null)
+                return Task.FromResult(new StudentDTO(studente.FirstMidName, studente.LastName));
+
+            throw new Exception();
+
+            //return Task.FromResult(new StudentDTO()); 
+
         }
     }
 }

@@ -1,6 +1,6 @@
 using BlazorUi.Data;
-using DemoLibrary;
-using DemoLibrary.DataAccess;
+//using DemoLibrary;
+//using DemoLibrary.DataAccess;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -12,12 +12,15 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 //Aggiungo il servizio DataAccess alla DI
-builder.Services.AddTransient<IDataAccess, DemoDataAccess>(); //non e' consigliato usare un Singleton
+//builder.Services.AddTransient<IDataAccess, DemoDataAccess>(); //non e' consigliato usare un Singleton
+
 //Aggiungo MediatR
-builder.Services.AddMediatR(typeof(DemoLibraryMediatREntryPoint).Assembly);
+//builder.Services.AddMediatR(typeof(DemoLibraryMediatREntryPoint).Assembly);
 
 //builder.Services.AddMediatR(typeof(DemoDataAccess).Assembly); //cosa fa? non carica solamente DemoDataAccess ma tutto l'Assembly alal ricerca di tutto cio che ha a che fare con MediatR
 // builder.Services.AddMediatR(typeof(Program).Assembly); solitamente viene messa la classe Programs (o Startup) ma questa riguarda BlazorUI che non a che fare con MediatR
+
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

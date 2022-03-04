@@ -11,11 +11,11 @@ namespace DemoLibrary.Models
     {
         //Le DataAnnotation ci permettono di validare i dati in ingresso nel nostro controller
 
-        [Required]//(ErrorMessage = "LastName richiesto!")]        
+        //[Required]//(ErrorMessage = "LastName richiesto!")]        
         public string LastName { get; set; }
-        [Required]
+        //[Required]
         public string FirstName { get; set; }
-        [Required]
+        //[Required]
         public DateTime EnrollmentDate { get; set; }      
 
         public StudentDTO() { }

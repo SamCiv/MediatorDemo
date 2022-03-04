@@ -1,11 +1,23 @@
 using DemoLibrary;
+using DemoLibrary.Behaviors;
 using DemoLibrary.Context;
 using DemoLibrary.DataAccess;
-using DemoLibrary.Models;
+using DemoLibrary.Middlewares;
 using MediatR;
+using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using DemoApi;
 
 var builder = WebApplication.CreateBuilder(args);
+
+    builder.Services.AddCors(policy =>
+    {
+        policy.AddPolicy("CorsPolicy", opt => opt
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+    });
 
 // Add services to the container.
 
@@ -28,7 +40,21 @@ builder.Services.AddTransient<ISchoolContext>(provider => provider.GetService<Sc
 //Aggiungo MediatR
 builder.Services.AddMediatR(typeof(DemoLibraryMediatREntryPoint).Assembly); //carica l'intero Assembly
 
+//builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>)); //behavior per logging
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>)); //behavior per logging
+
+//builder.Services.AddTransient(typeof(ExceptionHandlingMiddleware))
+
+builder.Services.AddValidatorsFromAssembly(typeof(DemoLibraryMediatREntryPoint).Assembly);
+//builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestExceptionProcessorBehavior<,>)); //aggiunge un Behavior per l'exception Handling
+//builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestGenericExceptionHandler<,>)); //aggiunge un Behavior per l'exception Handling
+
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -47,7 +73,11 @@ using (var scope = app.Services.CreateScope())
    // DbInitializer.Initialize(context);
 }
 
+
+
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 

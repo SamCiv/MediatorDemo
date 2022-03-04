@@ -9,6 +9,6 @@ using System.Threading.Tasks;
 namespace DemoLibrary.StudentQueries
 {
     //Ritorno la lista degli studenti presenti nel DB 
-    public record GetStudentListQuery : IRequest<List<StudentDTO>>;
+    public record GetStudentListQuery : IRequest<ResultQC<List<StudentDTO>>>;
 
 }
