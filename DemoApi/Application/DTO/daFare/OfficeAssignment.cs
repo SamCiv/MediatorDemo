@@ -15,6 +15,6 @@ namespace DemoApi.Application.DTO
         [Display(Name = "Office Location")]
         public string Location { get; set; }
 
-        public Instructor Instructor { get; set; }
+        public InstructorDTO Instructor { get; set; }
     }
 }

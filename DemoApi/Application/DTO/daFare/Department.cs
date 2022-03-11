@@ -27,7 +27,7 @@ namespace DemoApi.Application.DTO
 
         public int? InstructorID { get; set; }
 
-        public Instructor Administrator { get; set; }
+        public InstructorDTO Administrator { get; set; }
         public ICollection<Course> Courses { get; set; }
     }
 }

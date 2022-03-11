@@ -41,8 +41,7 @@ namespace Infrastructure.Repositories
 
         public void Update(Student student)
         {
-            throw new NotImplementedException();
-            
+            _context.Students.Update(student);            
         }
 
         public void Delete(Student student)

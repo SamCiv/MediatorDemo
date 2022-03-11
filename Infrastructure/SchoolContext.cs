@@ -1,4 +1,5 @@
-﻿using Domain.AggregatesModel.StudentAggregate;
+﻿using Domain.AggregatesModel.InstructorAggregate;
+using Domain.AggregatesModel.StudentAggregate;
 using Domain.Base;
 using Infrastructure.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
@@ -15,8 +16,8 @@ namespace Infrastructure
     {
 
         public DbSet<Student> Students { get; set; }
-       /* public DbSet<Instructor> Instructors { get; set; }
-        public DbSet<Course> Courses { get; set; }
+        public DbSet<Instructor> Instructors { get; set; }
+       /* public DbSet<Course> Courses { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<OfficeAssignment> OfficeAssignments { get; set; }*/
@@ -36,6 +37,7 @@ namespace Infrastructure
             modelBuilder.Entity<Instructor>().ToTable(nameof(Instructor));*/
 
             modelBuilder.ApplyConfiguration(new StudentEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new InstructorEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ClientRequestEntityTypeConfiguration());
         }
 

@@ -1,15 +1,10 @@
 ﻿using Domain.AggregatesModel.StudentAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.EntityConfigurations
 {
-    public class StudentEntityTypeConfiguration : IEntityTypeConfiguration<Student>
+    internal class StudentEntityTypeConfiguration : IEntityTypeConfiguration<Student>
     {
         public void Configure(EntityTypeBuilder<Student> studentConfiguration) //Da implementare
         {

@@ -37,5 +37,17 @@ namespace Domain.AggregatesModel.StudentAggregate
             LastName = lastName;
             EnrollmentDate = enrollmentDate;
         }
+
+        public void Update(string firstMidName, string lastName, DateTime enrollmentDate)
+        {
+            if(firstMidName != FirstMidName)
+                FirstMidName = firstMidName;
+
+            if(lastName != LastName)
+                LastName = lastName;
+
+            if (enrollmentDate != EnrollmentDate)
+                EnrollmentDate = enrollmentDate;
+        }
     }
 }

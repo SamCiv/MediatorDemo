@@ -1,10 +1,4 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using DemoApi.Application.Queries.StudentQuery;
 using DemoApi.Application.DTO;
 using DemoApi.Application.Queries;

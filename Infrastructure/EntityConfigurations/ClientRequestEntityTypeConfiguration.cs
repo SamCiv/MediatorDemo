@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.EntityConfigurations
 {
-    class ClientRequestEntityTypeConfiguration : IEntityTypeConfiguration<ClientRequest>
+    internal class ClientRequestEntityTypeConfiguration : IEntityTypeConfiguration<ClientRequest>
     {
         public void Configure(EntityTypeBuilder<ClientRequest> requestConfiguration)
         {

@@ -1,6 +1,4 @@
-﻿using DemoLibrary.Exceptions;
-using DemoLibrary.Exceptions.CommandException;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using System;

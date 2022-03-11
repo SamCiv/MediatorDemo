@@ -38,14 +38,14 @@ namespace DemoApi.Controllers
         }
 
 
-        [HttpGet("{StudentId:int}")]
+        [HttpGet("{studentId:int}")]
         [ProducesResponseType(typeof(StudentDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(int StudentId)
+        public async Task<IActionResult> Get(int studentId)
         {
-            var risposta = await _mediator.Send(new GetStudentByIdQuery2(StudentId));
+            var risposta = await _mediator.Send(new GetStudentByIdQuery2(studentId));
 
             if (risposta.IsSuccess && risposta.Result != null) //lo studente e' stato trovato nel DB
                 return Ok(risposta.Result);
@@ -57,18 +57,18 @@ namespace DemoApi.Controllers
         }
 
 
-        [HttpDelete("{idStudent:int}")]
+        [HttpDelete("{studentId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete(int idStudent, [FromHeader(Name = "x-request-id")] string requestId)
+        public async Task<IActionResult> Delete(int studentId, [FromHeader(Name = "x-request-id")] string requestId)
         {
             bool risposta = false;
             //81a130d2-502f-4cf1-a376-63edeb000e9f esempio
 
             if(Guid.TryParse(requestId, out Guid id) && id != Guid.Empty)
             {
-                var command = new DeleteStudentByIdCommand(idStudent);
+                var command = new DeleteStudentByIdCommand(studentId);
 
                 var identifiedCommand = new IdentifiedCommand<DeleteStudentByIdCommand, bool>(command, id);
 
@@ -109,6 +109,33 @@ namespace DemoApi.Controllers
             return NotFound();             
             
         }
+
+        [HttpPut("{studentId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Update(int studentId, StudentDTO studentDTO,[FromHeader(Name ="x-request-id")] string requestId)
+        {
+            bool risposta = false;
+
+            if (Guid.TryParse(requestId, out Guid id) && id != Guid.Empty && studentId > 0)
+            {
+
+                var student = new UpdateStudentCommand(studentDTO, studentId);
+
+                var identifiedCommand = new IdentifiedCommand<UpdateStudentCommand, bool>(student, id);
+
+                risposta = await _mediator.Send(identifiedCommand);
+
+            }
+
+            if (risposta)
+                return Ok();
+
+            return NotFound();
+
+        }
+
     }
 }
 

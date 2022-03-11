@@ -1,4 +1,5 @@
-﻿using Domain.AggregatesModel.StudentAggregate;
+﻿using Domain.AggregatesModel.InstructorAggregate;
+using Domain.AggregatesModel.StudentAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,8 +33,19 @@ namespace Infrastructure
                 new Student("Berlusconi", "Silvio", DateTime.Parse("2014-12-01"))
             };
 
-           context.AddRange(students);
+            
 
+            Instructor[] instructors = new Instructor[]
+            {
+                new Instructor("Ponzio", "Pilato", DateTime.Parse("2021-09-01")),
+                new Instructor("Alighieri", "Dante", DateTime.Parse("2000-09-01")),
+                new Instructor("Rossi", "Mario", DateTime.Parse("2013-08-10")),
+                new Instructor("Verdi", "Dino", DateTime.Parse("2019-12-01"))
+            };
+
+            context.AddRange(students);
+            context.AddRange(instructors);
+            
             /*var abercrombie = new Instructor
             {
                 FirstMidName = "Kim",
