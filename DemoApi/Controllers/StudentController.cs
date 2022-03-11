@@ -1,10 +1,9 @@
-﻿using DemoLibrary.Commands.StudentCommand;
-using DemoLibrary.Models;
-using DemoLibrary.StudentQueries;
+﻿using DemoApi.Application.Commands;
+using DemoApi.Application.Commands.StudentCommand;
+using DemoApi.Application.DTO;
+using DemoApi.Application.Queries.StudentQuery;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 //using System.Web.Http;
 
 namespace DemoApi.Controllers
@@ -13,13 +12,17 @@ namespace DemoApi.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator _mediator;        
+
         public StudentController(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = mediator;            
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(StudentDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get()
         {
             var risposta = await _mediator.Send(new GetStudentListQuery());
@@ -35,10 +38,14 @@ namespace DemoApi.Controllers
         }
 
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{StudentId:int}")]
+        [ProducesResponseType(typeof(StudentDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Get(int StudentId)
         {
-            var risposta = await _mediator.Send(new GetStudentByIdQuery2(id));
+            var risposta = await _mediator.Send(new GetStudentByIdQuery2(StudentId));
 
             if (risposta.IsSuccess && risposta.Result != null) //lo studente e' stato trovato nel DB
                 return Ok(risposta.Result);
@@ -50,38 +57,57 @@ namespace DemoApi.Controllers
         }
 
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{idStudent:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Delete(int idStudent, [FromHeader(Name = "x-request-id")] string requestId)
         {
-            //bool success = false;
+            bool risposta = false;
+            //81a130d2-502f-4cf1-a376-63edeb000e9f esempio
+
+            if(Guid.TryParse(requestId, out Guid id) && id != Guid.Empty)
+            {
+                var command = new DeleteStudentByIdCommand(idStudent);
+
+                var identifiedCommand = new IdentifiedCommand<DeleteStudentByIdCommand, bool>(command, id);
+
+                risposta = await _mediator.Send(identifiedCommand);            
+                                
+            }
             
-            var risposta = await _mediator.Send(new DeleteStudentByIdCommand(id));            
-
-            if(risposta.IsSuccess && risposta.Result)
+            if(risposta)
                 return Ok();            
-            if(risposta.IsSuccess && !risposta.Result)
-                return NotFound();
-
-            return BadRequest();
+                
+            return NotFound();
+            
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(StudentDTO studentDTO) //, [FromServices] StudentDTO student) //[FromBody]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Post(StudentDTO studentDTO, [FromHeader(Name = "x-request-id")] string requestId) //, [FromServices] StudentDTO student) //[FromBody]
         {
-            if (ModelState.IsValid)
+            bool risposta = false;
+
+            //81a130d2-502f-4cf1-a376-63edeb000e9f esempio
+            if (Guid.TryParse(requestId, out Guid id) && id != Guid.Empty && ModelState.IsValid)            
             {
-                var risposta = await _mediator.Send(new AddStudentCommand(studentDTO));
-                if(risposta.IsSuccess && risposta.Result)
-                    return Ok();                
+                
+                var student = new AddStudentCommand(studentDTO);
+                
+                var identifiedCommand = new IdentifiedCommand<AddStudentCommand, bool>(student, id);
+
+                risposta = await _mediator.Send(identifiedCommand); 
+                
             }
 
-            /*if (ModelState.IsValid)
-            {
-                await _mediator.Send(new AddStudentCommand(studentDTO));
-                return Ok();
-            }*/
+            if(risposta)
+                    return Ok();           
 
-            return NotFound();
+            return NotFound();             
+            
         }
     }
 }

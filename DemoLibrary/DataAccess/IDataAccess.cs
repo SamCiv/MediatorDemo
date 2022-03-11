@@ -1,5 +1,5 @@
-﻿using DemoLibrary.Models;
-
+﻿
+/*
 namespace DemoLibrary.DataAccess
 {
     public interface IDataAccess
@@ -8,4 +8,4 @@ namespace DemoLibrary.DataAccess
         PersonModel InsertPerson(string firstName, string lastName);        
         
     }
-}
+}*/
